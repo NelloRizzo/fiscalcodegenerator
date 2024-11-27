@@ -25,6 +25,6 @@ export const fetchCities = async () => {
             cities.push({ name: parts[CITY_NAME], acronym: parts[PROVINCE_ACRONYM], code: parts[CITY_CODE] })
         });
     provinces = [...new Set(provinces)].map(p => JSON.parse(p)).filter(p => p?.acronym)
-    provinces.sort((a, b) => a.acronym > b.acronym ? 1 : -1)
+    provinces.sort((a, b) => a.name > b.name ? 1 : -1)
     return { provinces: provinces, cities: cities }
 }

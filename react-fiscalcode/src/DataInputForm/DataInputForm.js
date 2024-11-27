@@ -1,16 +1,19 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { SelectOptions } from '../SelectOptions/SelectOptions.js';
-import { dataChangedAction, selectProvinceAction } from '../StateManagement/Store.js';
+import { dataChangedAction, selectProvinceAction, calculateAction } from '../StateManagement/Store.js';
 
 export function DataInputForm() {
     const provinces = useSelector(s => s.provinces)
     const citiesInProvince = useSelector(s => s.citiesInProvince)
     const data = useSelector(s => s.data)
+    const fiscalCode = useSelector(s => s.fiscalCode)
+
     const dispatch = useDispatch()
     const handleChange = (e) => {
         dispatch(dataChangedAction(e.target.name, e.target.value))
     }
     const provinceChanged = (e) => dispatch(selectProvinceAction(e.target.value))
+    const calculate = () => dispatch(calculateAction())
     return (
         < div className="container" >
             <h1>Inserimento Dati</h1>
@@ -28,8 +31,8 @@ export function DataInputForm() {
             </div>
             <div className="row">
                 <label htmlFor='sex-male'>Sesso</label>
-                <input type='radio' id='sex-male' name='sex' value='m' checked={data.gender === 'm'} onChange={handleChange} /><span className='radio-label'>M</span>
-                <input type='radio' id='sex-female' name='sex' value='f' checked={data.gender === 'f'} onchange={handleChange} /><span className='radio-label'>F</span>
+                <input type='radio' id='sex-male' name='gender' value='m' checked={data.gender === 'm'} onChange={handleChange} /><span className='radio-label'>M</span>
+                <input type='radio' id='sex-female' name='gender' value='f' checked={data.gender === 'f'} onchange={handleChange} /><span className='radio-label'>F</span>
             </div>
             <div className="row">
                 <label htmlFor='birth-province'>Città di nascita</label>
@@ -41,8 +44,9 @@ export function DataInputForm() {
                 </select>
             </div>
             <div className="row">
-                <button type='button'>Calcola</button>
+                <button type='button' onChange={calculate()}>Calcola</button>
             </div>
+            <div>{fiscalCode}</div>
         </div >
     )
 }
